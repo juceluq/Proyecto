@@ -84,8 +84,18 @@ export class ClienteService {
     }
   }
 
-  async updateCliente(cliente: Cliente): Promise<Cliente> {
+  async updateCliente(cliente: Cliente): Promise<any> {
     try {
+      const emailDuplicado = await this.emailExiste(cliente.email);
+      if (emailDuplicado) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Correo electrónico ya en uso',
+          text: 'Este correo electrónico ya está registrado. Por favor, use otro.',
+        });
+        return;
+      }
+
       const response = await this.sdk.crud.editItemById(
         'clientes',
         cliente.id,

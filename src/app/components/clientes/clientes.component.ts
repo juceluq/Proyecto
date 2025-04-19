@@ -15,7 +15,11 @@ import { ClienteService } from '../../services/totalum-api-service/clientes/clie
 export class ClientesComponent implements OnInit {
   columnasClientes = [
     { campo: 'nombre', cabecera: 'Nombre', tipo: 'text' },
-    { campo: 'fecha_nacimiento', cabecera: 'Fecha de Nacimiento', tipo: 'date' },
+    {
+      campo: 'fecha_nacimiento',
+      cabecera: 'Fecha de Nacimiento',
+      tipo: 'date',
+    },
     { campo: 'email', cabecera: 'Email', tipo: 'email' },
     { campo: 'telefono', cabecera: 'Teléfono', tipo: 'number' },
   ];
@@ -61,23 +65,26 @@ export class ClientesComponent implements OnInit {
     this.clienteEditando = cliente;
     this.formularioCliente.patchValue({
       ...cliente,
-      fecha_nacimiento: cliente.fecha_nacimiento ? new Date(cliente.fecha_nacimiento) : null,
+      fecha_nacimiento: cliente.fecha_nacimiento
+        ? new Date(cliente.fecha_nacimiento)
+        : null,
     });
   }
-  
 
   async guardarCliente() {
     const cliente = this.formularioCliente.value;
 
     if (this.clienteEditando) {
       try {
-        await this.clienteService.updateCliente(cliente);
-        Object.assign(this.clienteEditando, cliente);
-        Swal.fire(
-          'Actualizado',
-          'cliente actualizado correctamente',
-          'success'
-        );
+        const actualizado = await this.clienteService.updateCliente(cliente);
+        if (actualizado) {
+          Object.assign(this.clienteEditando, cliente);
+          Swal.fire(
+            'Actualizado',
+            'Pedido actualizado correctamente',
+            'success'
+          );
+        }
       } catch (error) {
         console.error('Error al actualizar cliente:', error);
       }
