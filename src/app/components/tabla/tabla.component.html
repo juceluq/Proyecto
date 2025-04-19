@@ -1,0 +1,139 @@
+<div class="p-4 bg-gray-100 dark:bg-gray-900 rounded-xl shadow-md transition-colors duration-300">
+    <div class="mb-4 flex justify-between items-center flex-wrap gap-2">
+        <input type="text" placeholder="Buscar..." (input)="onGlobalFilter($event)"
+            class="w-full md:w-80 px-4 py-2 rounded-md border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors duration-300" />
+
+        <button (click)="abrirDialogo()"
+            class="bg-green-500 hover:bg-green-600 text-white font-medium py-2 px-4 rounded-md flex items-center gap-2 cursor-pointer">
+            <i class="ri-add-line"></i> Nuevo
+        </button>
+    </div>
+
+    <p-table #tabla [value]="datos" [columns]="columnas" [paginator]="true" [rows]="10"
+        [rowsPerPageOptions]="[3, 5, 10, 20]" [responsiveLayout]="'scroll'" [globalFilterFields]="globalFilterFields"
+        [sortField]="columnas[0].campo" [sortOrder]="1">
+        <ng-template pTemplate="caption">
+            <div class="flex items-center justify-between">
+                <span class="text-xl font-bold">{{ nombre }}</span>
+            </div>
+        </ng-template>
+
+        <ng-template pTemplate="header" let-columns>
+            <tr>
+                <th *ngFor="let col of columns" [pSortableColumn]="col.campo"
+                    class="bg-gray-200 dark:bg-gray-800 text-gray-800 dark:text-white transition-colors duration-300">
+                    {{ col.cabecera }}
+                    <p-sortIcon field="{{ col.campo }}"></p-sortIcon>
+                </th>
+                <th class="bg-gray-200 dark:bg-gray-800"></th>
+            </tr>
+        </ng-template>
+
+        <ng-template pTemplate="body" let-item let-columns="columns">
+            <tr>
+                <td *ngFor="let col of columns"
+                    class="bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-200 transition-colors duration-300">
+                    <ng-container [ngSwitch]="col.tipo">
+                        <span *ngSwitchCase="'date'">{{ item[col.campo] | date: 'dd/MM/yyyy' }}</span>
+                        <span *ngSwitchDefault>{{ item[col.campo] }}</span>
+                    </ng-container>
+                </td>
+                <td class="bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-200 transition-colors duration-300">
+                    <button (click)="editarDialogo(item)"
+                        class="bg-blue-500 hover:bg-blue-600 text-white rounded-md p-2 mr-2 cursor-pointer">
+                        <i class="ri-edit-line text-lg"></i>
+                    </button>
+                    <button (click)="eliminarElemento(item)"
+                        class="bg-red-500 hover:bg-red-600 text-white rounded-md p-2 cursor-pointer">
+                        <i class="ri-delete-bin-6-line text-lg"></i>
+                    </button>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+
+    <p-dialog [(visible)]="dialogVisible" [modal]="true" [closable]="false" [responsive]="true"
+        [style]="{ width: '90%', maxWidth: '500px' }" [header]="modo == 'nuevo' ? 'Nuevo' : 'Editar'">
+        <form [formGroup]="formulario" (ngSubmit)="guardar()">
+            <div *ngFor="let col of columnas" class="mb-4">
+                <label class="block font-semibold mb-1">{{ col.cabecera }}</label>
+
+                <ng-container [ngSwitch]="col.tipo">
+                    <!-- Texto -->
+                    <div *ngSwitchCase="'text'">
+                        <input type="text" pInputText formControlName="{{ col.campo }}"
+                            class="w-full px-4 py-2 border rounded-md" />
+                        <div *ngIf="formulario.get(col.campo)?.touched && formulario.get(col.campo)?.invalid"
+                            class="text-red-500 text-sm mt-1">
+                            <small *ngIf="formulario.get(col.campo)?.errors?.['required']">Este campo es
+                                obligatorio.</small>
+                        </div>
+                    </div>
+
+                    <!-- Número -->
+                    <div *ngSwitchCase="'number'">
+                        <input type="number" pInputText formControlName="{{ col.campo }}"
+                            class="w-full px-4 py-2 border rounded-md" />
+                        <div *ngIf="formulario.get(col.campo)?.touched && formulario.get(col.campo)?.invalid"
+                            class="text-red-500 text-sm mt-1">
+                            <small *ngIf="formulario.get(col.campo)?.errors?.['required']">Este campo es
+                                obligatorio.</small>
+                            <small *ngIf="formulario.get(col.campo)?.errors?.['min']">El valor es demasiado
+                                bajo.</small>
+                            <small *ngIf="formulario.get(col.campo)?.errors?.['max']">El valor es demasiado
+                                alto.</small>
+                        </div>
+                    </div>
+
+                    <!-- Email -->
+                    <div *ngSwitchCase="'email'">
+                        <input type="email" pInputText formControlName="{{ col.campo }}"
+                            class="w-full px-4 py-2 border rounded-md" />
+                        <div *ngIf="formulario.get(col.campo)?.touched && formulario.get(col.campo)?.invalid"
+                            class="text-red-500 text-sm mt-1">
+                            <small *ngIf="formulario.get(col.campo)?.errors?.['required']">Este campo es
+                                obligatorio.</small>
+                            <small *ngIf="formulario.get(col.campo)?.errors?.['email']">Introduce un email
+                                válido.</small>
+                        </div>
+                    </div>
+
+                    <!-- Fecha -->
+                    <div *ngSwitchCase="'date'">
+                        <p-calendar formControlName="{{ col.campo }}" dateFormat="dd/mm/yy" showIcon="true"
+                            appendTo="body" baseZIndex="1100" class="w-full"
+                            inputStyleClass="w-full px-4 py-2 border rounded-md" />
+                        <div *ngIf="formulario.get(col.campo)?.touched && formulario.get(col.campo)?.invalid"
+                            class="text-red-500 text-sm mt-1">
+                            <small *ngIf="formulario.get(col.campo)?.errors?.['required']">Este campo es
+                                obligatorio.</small>
+                        </div>
+                    </div>
+
+                    <!-- Por defecto -->
+                    <div *ngSwitchDefault>
+                        <input type="text" pInputText formControlName="{{ col.campo }}"
+                            class="w-full px-4 py-2 border rounded-md" />
+                        <div *ngIf="formulario.get(col.campo)?.touched && formulario.get(col.campo)?.invalid"
+                            class="text-red-500 text-sm mt-1">
+                            <small *ngIf="formulario.get(col.campo)?.errors?.['required']">Este campo es
+                                obligatorio.</small>
+                        </div>
+                    </div>
+                </ng-container>
+
+            </div>
+
+            <div class="flex justify-end gap-2 pt-4">
+                <button type="button" (click)="dialogVisible = false"
+                    class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-md flex items-center gap-2 cursor-pointer">
+                    <i class="ri-close-line"></i> Cancelar
+                </button>
+                <button type="submit" [disabled]="formulario.invalid"
+                    class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md flex items-center gap-2 cursor-pointer">
+                    <i class="ri-check-line"></i> Guardar
+                </button>
+            </div>
+        </form>
+    </p-dialog>
+</div>

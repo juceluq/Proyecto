@@ -1,0 +1,10 @@
+<app-tabla
+  [nombre]="'Productos'"
+  [columnas]="columnasProductos"
+  [datos]="productos"
+  [formulario]="formularioProducto"
+  (onAdd)="nuevoProducto()"
+  (onEdit)="editarProducto($event)"
+  (onDelete)="eliminarProducto($event)"
+  (onSave)="guardarProducto()">
+</app-tabla>

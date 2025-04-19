@@ -1,1 +1,264 @@
-/* You can add global styles to this file, and also import other style files */
+@import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ==================== VARIABLES ==================== */
+
+/* Colores modo claro */
+:root {
+  --bg-light: #f3f4f6; /* bg-gray-100 */
+  --text-light: #111827; /* text-gray-900 */
+  --text-light-secondary: #1f2937; /* text-gray-800 */
+  --hover-bg-light: #d1d5db; /* bg-gray-300 */
+}
+
+/* Colores modo oscuro */
+.dark {
+  --bg-dark: #111827; /* bg-gray-900 */
+  --text-dark: #e5e7eb; /* text-gray-200 */
+  --text-dark-secondary: #ffffff;
+  --hover-bg-dark: #374151; /* bg-gray-700 */
+}
+
+/* ==================== MODO CLARO ==================== */
+
+/* Tabla */
+.p-datatable-thead > tr > th,
+.p-datatable-header,
+.p-paginator,
+.p-paginator .p-select {
+  @apply bg-white text-gray-800;
+  background-color: var(--bg-light) !important;
+  color: var(--text-light-secondary) !important;
+  transition-duration: 300ms !important;
+}
+
+.p-datatable-tbody > tr > td {
+  @apply bg-white text-gray-900;
+  background-color: var(--bg-light) !important;
+  color: var(--text-light) !important;
+}
+
+/* Paginador */
+.p-paginator .p-select .p-select-list-container,
+.p-paginator .p-select .p-select-list-container .p-focus {
+  @apply bg-gray-100 text-gray-900 rounded-md shadow-md;
+  background-color: var(--bg-light) !important;
+  color: var(--text-light) !important;
+}
+
+.p-paginator .p-select span,
+.p-paginator .p-paginator-page {
+  color: var(--text-light) !important;
+}
+
+.p-paginator .p-paginator-page:hover,
+.p-paginator .p-paginator-prev:hover,
+.p-paginator .p-paginator-next:hover,
+.p-paginator .p-paginator-first:hover,
+.p-paginator .p-paginator-last:hover,
+.p-paginator .p-paginator-pages button:hover {
+  @apply bg-gray-300 text-gray-800;
+  background-color: var(--hover-bg-light) !important;
+  color: var(--text-light-secondary) !important;
+}
+
+/* Dialog */
+.p-dialog {
+  background-color: var(--bg-light) !important;
+  color: var(--text-light) !important;
+}
+
+.p-dialog .p-dialog-header {
+  color: var(--text-light-secondary) !important;
+  border-bottom: #cccccc 1px solid !important;
+}
+
+.p-dialog .p-dialog-footer {
+  background-color: var(--bg-light) !important;
+  color: var(--text-light) !important;
+}
+
+.p-dialog input,
+.p-dialog .p-calendar,
+.p-dialog label {
+  background-color: var(--bg-light) !important;
+  color: var(--text-light) !important;
+  border-color: #d1d5db !important;
+  padding: 0.5rem;
+  border-radius: 0.375rem;
+  transition-duration: 300ms !important;
+}
+
+.p-dialog input:focus,
+.p-dialog .p-calendar:focus {
+  border-color: var(--hover-bg-light) !important;
+}
+
+.p-dialog .p-button {
+  padding: 0.5rem 1rem;
+  border-radius: 0.375rem;
+  cursor: pointer;
+  transition-duration: 300ms !important;
+}
+
+.p-dialog .p-button:disabled {
+  background-color: #d1d5db !important;
+  cursor: not-allowed;
+}
+
+/* Datepicker */
+.p-datepicker-dropdown {
+  background-color: var(--bg-light) !important;
+  color: var(--text-light) !important;
+  border-color: #d1d5db !important;
+}
+
+.p-datepicker-panel {
+  background-color: var(--bg-light) !important;
+  color: var(--text-light) !important;
+  border-color: #d1d5db !important;
+}
+
+.p-datepicker-header {
+  background-color: var(--bg-light) !important;
+  color: var(--text-light) !important;
+  border-color: #d1d5db !important;
+}
+
+.p-datepicker-select-month:hover,
+.p-datepicker-select-year:hover,
+.p-datepicker-day:hover,
+.p-datepicker-month:hover,
+.p-datepicker-year:hover {
+  background-color: var(--hover-bg-light) !important;
+  color: var(--text-light) !important;
+  border-color: #d1d5db !important;
+}
+
+.p-datepicker-weekday {
+  color: var(--text-light) !important;
+}
+
+.p-datepicker-day,
+.p-datepicker-select-month,
+.p-datepicker-select-year,
+.p-datepicker-year,
+.p-datepicker-month {
+  color: var(--text-light) !important;
+}
+
+/* ==================== MODO OSCURO ==================== */
+
+/* Tabla */
+.dark .p-datatable-thead > tr > th,
+.dark .p-datatable-header {
+  @apply bg-transparent text-white;
+  background-color: transparent !important;
+  color: var(--text-dark-secondary) !important;
+}
+
+.dark .p-datatable-tbody > tr > td,
+.dark .p-paginator,
+.dark .p-paginator .p-select {
+  @apply bg-gray-900 text-gray-200;
+  background-color: var(--bg-dark) !important;
+  color: var(--text-dark) !important;
+}
+
+/* Paginador */
+.dark .p-paginator .p-select .p-select-list-container {
+  @apply bg-gray-800 text-gray-200 rounded-md shadow-md;
+  background-color: #1f2937 !important;
+  color: var(--text-dark) !important;
+}
+
+.dark .p-paginator .p-select .p-select-list-container .p-focus {
+  @apply bg-gray-700 text-gray-300;
+  background-color: var(--hover-bg-dark) !important;
+  color: #d1d5db !important;
+}
+
+.dark .p-paginator .p-paginator-page,
+.dark .p-paginator .p-select span {
+  color: var(--text-dark-secondary) !important;
+}
+
+.dark .p-paginator .p-paginator-page:hover,
+.dark .p-paginator .p-paginator-prev:hover,
+.dark .p-paginator .p-paginator-next:hover,
+.dark .p-paginator .p-paginator-first:hover,
+.dark .p-paginator .p-paginator-last:hover,
+.dark .p-paginator .p-paginator-pages button:hover {
+  @apply bg-gray-700 text-white;
+  background-color: var(--hover-bg-dark) !important;
+  color: var(--text-dark-secondary) !important;
+}
+
+/* Dialog */
+.dark p-dialog,
+.p-dialog-content {
+  background-color: var(--bg-dark) !important;
+  color: var(--text-dark) !important;
+}
+
+.dark .p-dialog .p-dialog-header {
+  background-color: var(--text-light-secondary) !important;
+  color: var(--text-dark-secondary) !important;
+  border-bottom: var(--hover-bg-dark) 1px solid !important;
+}
+
+.dark .p-dialog .p-dialog-footer {
+  background-color: var(--bg-dark) !important;
+  color: var(--text-dark) !important;
+}
+
+.dark .p-dialog input,
+.dark .p-dialog .p-calendar,
+.dark .p-dialog label {
+  background-color: var(--bg-dark) !important;
+  color: var(--text-dark) !important;
+  border-color: #374151 !important;
+}
+
+.dark .p-dialog input:focus,
+.dark .p-dialog .p-calendar:focus {
+  border-color: var(--hover-bg-dark) !important;
+}
+
+/* Datepicker */
+.dark .p-datepicker-dropdown {
+  background-color: var(--bg-dark) !important;
+  color: var(--text-dark) !important;
+  border-color: #374151 !important;
+}
+
+.dark .p-datepicker-panel {
+  background-color: var(--bg-dark) !important;
+  color: var(--text-dark) !important;
+  border-color: #374151 !important;
+}
+
+.dark .p-datepicker-header {
+  background-color: var(--bg-dark) !important;
+  color: var(--text-dark) !important;
+  border-color: #374151 !important;
+}
+
+.dark .p-datepicker-select-month:hover,
+.dark .p-datepicker-select-year:hover,
+.dark .p-datepicker-day:hover,
+.dark .p-datepicker-month:hover,
+.dark .p-datepicker-year:hover {
+  background-color: var(--hover-bg-dark) !important;
+  color: var(--text-dark) !important;
+  border-color: #374151 !important;
+}
+
+.dark .p-datepicker-weekday,
+.dark .p-datepicker-day,
+.dark .p-datepicker-select-month,
+.dark .p-datepicker-select-year,
+.dark .p-datepicker-year,
+.dark .p-datepicker-month {
+  color: var(--text-dark) !important;
+}

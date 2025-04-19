@@ -1,0 +1,10 @@
+<app-tabla
+  [nombre]="'Clientes'"
+  [columnas]="columnasClientes"
+  [datos]="clientes"
+  [formulario]="formularioCliente"
+  (onAdd)="nuevoCliente()"
+  (onEdit)="editarCliente($event)"
+  (onDelete)="eliminarCliente($event)"
+  (onSave)="guardarCliente()">
+</app-tabla>

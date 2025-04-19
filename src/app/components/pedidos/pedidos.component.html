@@ -1,0 +1,10 @@
+<app-tabla
+  [nombre]="'Pedidos'"
+  [columnas]="columnasPedidos"
+  [datos]="pedidos"
+  [formulario]="formularioPedidos"
+  (onAdd)="nuevoPedido()"
+  (onEdit)="editarPedido($event)"
+  (onDelete)="eliminarPedido($event)"
+  (onSave)="guardarPedido()">
+</app-tabla>
